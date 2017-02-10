@@ -1,0 +1,85 @@
+<div ng-controller="navBar">
+<nav class="navbar navbar-default " id="navBar" style="width:100%;position: fixed;"  >
+  
+        
+        
+		
+      		<md-button ng-click="navBack()"  href="#" style="font-size:2rem;  text-align: center;text-transform: lowercase;
+">
+          	&ltliis.h&gt
+        	</md-button>
+        	<span  style="color:gray">-bibliotecă virtuală LIIS-</span>
+        	
+
+			<span flex></span>
+            <div ng-if="loggedIn">
+            <h5 style="display: inline-block;">Prof. {{account.nume}}&nbsp{{account.prenume}}</h5>
+            <md-button  class="md-warn md-raised" ng-click="logOut()"  style="font-size:1rem;display: inline-block;  text-align: center">
+                         Deconectează-te &nbsp<i class="material-icons" style="vertical-align: middle;">&#xE879;</i>
+                    </md-button>
+            </div>
+            <div ng-if="!loggedIn">
+            
+            <md-button class="md-primary md-raised"  ng-click="showLogin($event)" style="font-size:1rem;  text-align: center">
+                        Conectează-te &nbsp<i class="material-icons" style="vertical-align: middle;">&#xE8A6;</i>
+                    </md-button>
+
+            </div>
+            
+      			
+      		
+			
+			
+     		
+    		
+        
+      
+    </nav>
+
+    <div class="sideBar" >
+  
+  <br>
+  <div ng-if="loggedIn" >
+    <md-button class="md-primary md-raised"  href="#/dashboard"  style="font-size:1rem;  text-align: center;margin-left: 5rem;">
+                        <i class="material-icons" style="vertical-align: middle;">&#xE871;</i> Tablou de Bord
+                    </md-button>
+      <hr>
+  </div>
+  <h5 style="text-align: center;">Materiale Didactice</h5>
+  <hr>
+  <br>
+  <div id="elements">
+  <md-button class="md-icon-button"  ng-if="back" ng-click="navBack()" style="display: inline-block;width: 1rem">&larr;</md-button>
+  <h6 style="display: inline-block;">{{subtitle}}</h6>
+  <hr>
+
+  <md-button ng-if="!back" ng-if="clase.length>1" id="clasa" ng-repeat="clasa in clase" ng-click="navigateTo(clasa)">Clasa a {{clasa.nume_clasa}}-a</md-button>
+
+	<md-progress-circular md-mode="indeterminate" ng-if="back" ng-hide="get==true"></md-progress-circular>
+
+  <div ng-repeat="disciplina in discipline">
+
+  <md-button ng-if="back && get==true"  id="dscp"  ng-click="showDscp(disciplina.id_disciplina,disciplina.nume_disciplina)" style="display: inline-block;">{{disciplina.nume_disciplina}}</md-button>
+      <span ng-if="back && loggedIn" style="display: inline-block;">
+          <img style="width: 1rem;" ng-click="showCheck($event,disciplina.clasa_disciplina_id)" src="public/icons/delete.png">
+            <md-tooltip  md-direction="right">
+                  Șterge
+                </md-tooltip>
+          </span>
+  </div>
+  
+
+  </div>
+
+  
+  <div id="copyrights" ng-hide="back">
+    <hr>
+    <p style="text-align: center;color: gray">© Cărbune Bogdan | SprintCode</p>
+  </div>
+
+  
+
+</div>
+
+
+   </div> 

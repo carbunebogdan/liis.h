@@ -1,0 +1,90 @@
+angular.module('app.directives',[])
+	
+	.directive('navigationbar', [function(){
+
+		//Runs during compile
+
+		return{
+			//name: '',
+			
+			//priority: 1,
+			
+			//terminal: true,
+			
+			//scope: {}, // {} = isolate, true = child, false/undefined = no change
+			
+			controller: ['$scope', '$http' , function($scope,$http){
+						
+						
+							
+			
+						}],
+			
+			//require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
+			
+			restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
+			
+			//template: '<h1>Navigation</h1>',
+			
+			templateUrl: 'public/partials/navigationBar.html',
+			
+			//replace: true,
+			
+			//transclude: true,
+			
+			//compile: function(tElement, tAttrs, function transclude( function(scope,cloneLinkingFn){return function linking(scope, elm, attrs){}})),
+			
+			link: function($scope, iElm, iAttrs, controller){
+
+			}
+		}
+
+	}])
+
+// 	.directive('slideable', function () {
+//     return {
+//         restrict:'C',
+//         compile: function (element, attr) {
+//             // wrap tag
+//             var contents = element.html();
+//             element.html('<div class="slideable_content" style="margin:0 !important; padding:0 !important" >' + contents + '</div>');
+
+//             return function postLink(scope, element, attrs) {
+//                 // default properties
+//                 attrs.duration = (!attrs.duration) ? '1s' : attrs.duration;
+//                 attrs.easing = (!attrs.easing) ? 'ease-in-out' : attrs.easing;
+//                 element.css({
+//                     'overflow': 'hidden',
+//                     'height': '0px',
+//                     'transitionProperty': 'height',
+//                     'transitionDuration': attrs.duration,
+//                     'transitionTimingFunction': attrs.easing
+//                 });
+//             };
+//         }
+//     };
+// })
+//     .directive('slideToggle', function() {
+//         return {
+//             restrict: 'A',
+//             link: function(scope, element, attrs) {
+//                 var target = document.querySelector(attrs.slideToggle);
+
+//                 element.bind('click', function() {
+//                      var content = target.querySelector('.slideable_content');
+//                     if(!attrs.expanded) {
+//                         content.style.border = '1px solid rgba(0,0,0,0)';
+//                         var y = content.clientHeight;
+//                         content.style.border = 0;
+//                         target.style.height = y + 'px';
+//                     } else {
+//                         target.style.height = '0px';
+//                     }
+//                     attrs.expanded = !attrs.expanded;
+                   
+//                 });
+//             }
+//         }
+//     })
+
+	

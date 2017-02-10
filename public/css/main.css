@@ -1,0 +1,135 @@
+body{
+	overflow-x: hidden;
+}
+
+
+.content{
+	
+    margin-left: 20rem;
+	width: 100%;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding-top: 4rem;
+    /*padding-left: 20rem;*/
+    
+    
+}
+
+#navBar{
+	top:0;
+	background-color: #f2f2f2;
+}
+
+.sideBar{
+	float: left;
+	
+	background-color: #f2f2f2;
+	position: fixed;
+	overflow-y: scroll;
+	width: 20rem;
+	padding-top: 4rem;
+    height: 100%;
+}
+
+.sideBar #elements{
+	width: 90%;
+	margin: auto;
+}
+
+.sideBar #clasa{
+	width: 80%;
+	text-align: left;
+
+
+}
+
+.sideBar #dscp{
+	width: 80%;
+	text-align: left;
+}
+
+.sideBar #dscp:active{
+	-webkit-transition:0.2s;
+	-moz-transition:0.2s;
+	-o-transition:0.2s;
+	transition: 0.2s;
+	background-color: #5874a0;
+	margin-left: 2rem;
+}
+
+.sideBar #clasa:focus{
+
+	background-color: #5874a0;
+	margin-left: 2rem;
+}
+
+hr {
+	background-color: gray;
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px ;
+    /*margin: 1em 0;*/
+    padding: 0; 
+}
+
+#footer {
+
+} 
+
+
+.article{
+	border:solid 1px #f2f2f2;
+	margin-top:5rem;
+	font-size: 1rem;
+	margin-bottom: 5rem;
+}
+
+.article #title{
+	padding: 1rem;
+}
+
+.article #info{
+	color:gray;
+	padding-left: 1rem;
+}
+
+.article #content{
+	padding: 1rem;
+}
+
+.article #date{
+	color: gray;
+	font-size: 0.7rem;
+	margin-top: -1rem;
+	padding-left: 1rem;
+}
+
+.container{
+	width: 60%;
+	margin-left:8rem;
+	margin-top: 3rem;
+
+}
+
+.articleForm{
+	margin-top: 3rem;
+}
+
+#articleAdminOptions{
+	float: right;
+	padding:1rem;
+}
+
+md-toolbar{
+	z-index: 0;
+}
+
+#placeholder{
+	margin-top:5rem;
+}
+
+.show {display:block;}

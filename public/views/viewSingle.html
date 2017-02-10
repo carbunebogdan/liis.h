@@ -1,0 +1,16 @@
+<md-toolbar class="md-primary">
+    <div class="md-toolbar-tools">
+      <h2 class="md-flex">{{article.nume_articol}}</h2>
+    </div>
+  </md-toolbar>
+
+
+<div class="container">
+	<p style="font-size: 1.3rem;">Adăugat la {{article.data|dateOnly}} de Prof. {{article.nume_profesor}} {{article.prenume}}</p><hr>
+	<p>&nbsp&nbsp&nbsp&nbsp&nbsp{{article.descriere_articol}}</p><hr>
+	<p style="display: inline-block;">Documente atașate:</p><a style="display: inline-block;margin-left: 1rem" href="public/uploads/docs/{{article.document_articol}}">{{article.document_articol}}</a><br>
+
+	<md-button class="md-raised md-warn"  ng-if="state && loggedIn && article.nume_profesor==account.nume"  style="width: 12em;">Modifică articolul</md-button>
+</div>
+
+

@@ -1,0 +1,44 @@
+<md-dialog >
+  
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2 ng-if="processed===undefined || processed==true">Sunteți profesor? Conectați-vă!</h2>
+        <h2 ng-if="processed==false">În curs de conectare...</h2>
+        <span flex></span>
+      </div>
+    </md-toolbar>
+    
+    <form >
+    <md-dialog-content style="width: 80%;margin: auto">
+    
+    <br>
+      <md-input-container style="width: 100%">
+        <label>Nume</label>
+        <input required="" ng-model="username" type="text">
+      </md-input-container>
+      <br>
+
+        <md-input-container style="width: 100%">
+          <label>Parolă</label>
+          <input required="" ng-model="password" type="password">
+        </md-input-container>
+        <br>
+    </md-dialog-content>
+
+    <md-dialog-actions ng-if="processed===undefined || processed==true" ng-hide="processed==false" layout="row">
+
+      <span flex></span>
+      <md-button ng-click="close()">
+       Nu sunt Profesor
+      </md-button>
+      <md-button  ng-click="submit()" >
+        Conectare
+      </md-button>
+      
+    </md-dialog-actions>
+    <div ng-if="processed==false">
+      <md-progress-circular md-mode="indeterminate" style="margin:auto;margin-top: 1rem;"></md-progress-circular>
+    </div>
+    </form>
+  
+</md-dialog>

@@ -1,0 +1,50 @@
+<md-toolbar  class="md-primary">
+    <div class="md-toolbar-tools">
+      <h2 class="md-flex">Bun venit</h2>
+    </div>
+  </md-toolbar>
+  <div class="container">
+  	
+  	<h3>
+  			Ultimele articole adăugate
+  			</h3>
+
+  	<h5 id="placeholder"  ng-if="none==true">
+			Încă nu a fost adaugat nici un articol.
+			</h5>
+
+
+
+	<md-progress-linear md-mode="indeterminate" ng-hide="success==true" ></md-progress-linear>
+  
+
+  <div class="article" ng-repeat="articol in articole">
+
+	<h5 id="title">
+			{{articol.nume_articol}}
+			</h5>
+
+	<p id="info">
+			Postat în Clasa a {{articol.nume_clasa}}-a, {{articol.nume_disciplina}} de Prof. {{articol.nume_profesor}} {{articol.prenume}}
+			</p>
+
+	<p id="content">
+			{{articol.descriere_articol|limitTo:250}}{{articol.descriere_articol.length>250 ? '..' : ''}}
+			</p>
+<div style="width: 50%;padding-left: 1rem" ng-if="articol.descriere_articol.length<250 && articol.none==false">
+	 <hr >
+	</div>
+	<div style="padding-left: 1rem" ng-if="articol.descriere_articol.length<250 && articol.none==false">
+		
+		<p style="display: inline-block;">Documente atașate:</p>
+		<ul style="display: inline-block;margin-left: -3rem;">
+		<a style="display: inline-block;margin-left: 1rem" ng-repeat="doc in articol.document_articol" href="public/uploads/docs/{{doc}}">{{doc}}</a>
+		</ul><br>
+	</div>
+
+	<md-button class="md-raised" style="margin: 1rem;" ng-click="openArticle($event,articol.id_articol,articol)" ng-if="articol.descriere_articol.length>250">
+			Citește mai mult ->
+				</md-button>
+</div>
+
+</div>

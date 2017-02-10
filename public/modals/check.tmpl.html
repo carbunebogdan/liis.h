@@ -1,0 +1,26 @@
+<md-dialog aria-label="check">
+  
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2 ng-if="success===undefined">Ești sigur/ă că vrei să ștergi ?</h2>
+        <h2 ng-if="success==false">În curs de ștergere...</h2>
+        <span flex></span>
+      </div>
+    </md-toolbar>
+    
+
+    
+
+
+        <div style="height: 5rem;" ng-if="success==false" ng-hide="success==true"><md-progress-circular md-mode="indeterminate" style="margin:auto;margin-top: 1rem;"></md-progress-circular></div>
+      <div style="margin: auto;width: 80%" ng-if="success===undefined">
+      <md-button style="display: inline-block;" ng-click="close()">
+       Nu
+      </md-button>
+      <md-button style="display: inline-block;" ng-click="delete()" >
+        Da
+      </md-button>
+      </div>
+
+  
+</md-dialog>

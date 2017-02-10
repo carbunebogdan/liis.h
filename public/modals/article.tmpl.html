@@ -1,0 +1,25 @@
+<div style="max-height: 60%;overflow-y: scroll;">
+<md-toolbar class="md-primary" style="position: fixed;">
+    <div class="md-toolbar-tools">
+      <h2 class="md-flex">{{article.nume_articol}}</h2><span flex></span>
+
+
+    </div>
+
+
+  </md-toolbar>
+
+
+<div style="padding: 4rem;margin-top: 3rem;">
+	<p style="font-size: 1.3rem;">Adăugat la {{article.data|dateOnly}} de Prof. {{article.nume_profesor}} {{article.prenume}}</p><hr><br>
+	<p >&nbsp&nbsp&nbsp&nbsp&nbsp{{article.descriere_articol}}</p><br><hr><br>
+
+	<p ng-if="article.document_articol.length>0" ng-if="!none" style="">Documente atașate:</p>
+	<ul style="" ng-if="article.document_articol.length>0">
+	<a style="display: list-item;vertical-align: middle;" ng-if="!none" ng-repeat="doc in article.document_articol track by $index" href="public/uploads/docs/{{doc}}">{{doc}}</a>
+	<p ng-if="none">Nu a fost adăugat nici un fișier încă</p>
+	</ul>
+
+</div>
+</div>
+

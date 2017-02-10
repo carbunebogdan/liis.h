@@ -1,0 +1,289 @@
+<md-toolbar class="md-primary">
+    <div class="md-toolbar-tools">
+      <h2 class="md-flex">Tablou de Bord</h2>
+    </div>
+  </md-toolbar>
+
+<md-tabs md-dynamic-height style="margin-left: 2rem;">
+	<md-tab label="Articolele mele">
+		<div class="container">
+			<h5 id="placeholder"  ng-if="none==true">
+			Încă nu ai adaugat nici un articol.
+			</h5>
+
+
+
+	<md-progress-linear md-mode="indeterminate" ng-hide="success==true" ></md-progress-linear>
+
+	<div class="article" ng-if="articole.length-1>=0" ng-repeat="articol in articole">
+	<div ng-if="articol.editing">
+		<form  id="artFrm" style="padding: 2rem" ng-submit="update(articol)">	
+
+
+			
+			
+			<md-input-container style="">
+				
+		        <label style="">Titlu</label>
+		        <input required="" ng-model="articol.nume_articol" style="">
+		      </md-input-container>
+		      <br>
+
+
+
+			<md-input-container class="md-block" style="">
+				  
+		          <label style="">Conținut</label>
+		          <textarea required=""  ng-model="articol.descriere_articol" md-maxlength="6000" rows="7" md-select-on-focus style=""></textarea>
+		        </md-input-container>
+
+
+		     <md-input-container ng-controller="uploadDoc">
+	            <h5>Documente</h5>
+	            
+	            <br>
+	            <md-button type="button" ng-disabled="progress>0 && progress<100" ng-if="count<5" type="file" ngf-select="uploadFiles($file, $invalidFiles)"
+	         class="md-raised md-warn" style="display: inline-block;vertical-align:middle;"><i class="material-icons" style="vertical-align: middle;">&#xE2C3;</i>&nbsp Încarcă</md-button>
+	         	<md-progress-circular style="display: inline-block;vertical-align:middle;" md-mode="determinate" value="{{progress}}" ng-hide="progress==100"></md-progress-circular>
+	         	<div style="display: inline-block;vertical-align:middle;">
+	         	<ul >
+	         	<div ng-repeat="name in names">
+				<li >{{name}} 
+				<i style="display: inline-block;vertical-align: middle;" ng-click="removeFiles(name,names.indexOf(name))" class="material-icons">&#xE5CD;</i>
+				</li>
+			      </div>
+			    
+	         
+	            </ul>
+				</div>
+
+	        </md-input-container><br><br><br>
+		     <div ng-if="modified===undefined">
+		    <md-button class="md-raised md-primary"  id="submit" type="submit" ><i class="material-icons" style="vertical-align: middle;">&#xE255;</i> Modifică articolul</md-button>
+		    <md-button class="md-raised" ng-click="edit(articole.indexOf(articol),false)">Renunță</md-button>
+		    </div>
+
+		    <div ng-if="modified==false">
+		    	<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+		    </div>
+
+		</form>
+	</div>
+
+			<div ng-if="!articol.editing">
+				<div id="articleAdminOptions" >
+
+				<span>
+				<img style="width: 2rem;margin-right: 1rem" ng-click="edit(articole.indexOf(articol),true)" src="public/icons/edit.png">
+					<md-tooltip md-direction="left">
+			          Editează
+			        </md-tooltip>
+				</span>
+
+				<span>
+				<img style="width: 2rem;" ng-click="showCheck($event,articol.id_articol)" src="public/icons/delete.png">
+					<md-tooltip  md-direction="right">
+			          Șterge
+			        </md-tooltip>
+				</span>
+			</div>
+
+				<h5 id="title">
+						{{articol.nume_articol}}
+						</h5>
+
+				<p id="info">
+						Postat în Clasa a {{articol.nume_clasa}}-a, {{articol.nume_disciplina}} la data {{articol.data}}
+						</p>
+
+				<p id="content">
+						{{articol.descriere_articol|limitTo:250}}{{articol.descriere_articol.length>250 ? '..' : ''}}
+						</p>
+
+				<div style="width: 50%;padding-left: 1rem" ng-if="articol.descriere_articol.length<250 && articol.none==false">
+					 <hr >
+					</div>
+					<div style="padding-left: 1rem" ng-if="articol.descriere_articol.length<250 && articol.none==false">
+						
+						<p style="display: inline-block;">Documente atașate:</p>
+						<ul style="display: inline-block;margin-left: -3rem;">
+						<a style="display: inline-block;margin-left: 1rem" ng-repeat="doc in articol.document_articol" href="public/uploads/docs/{{doc}}">{{doc}}</a>
+						</ul><br>
+					</div>
+
+				<md-button class="md-raised" style="margin: 1rem;" ng-click="openArticle($event,articol.id_articol,articol)" ng-if="articol.descriere_articol.length>250">
+						Citește mai mult ->
+							</md-button>
+			</div>
+
+			</div>
+		</div>
+	</md-tab>
+	<md-tab label="Administrare" >
+		<div class="container">
+
+		<p style="font-size: 1.5rem">Adaugă o disciplină nouă</p><hr>
+		<br>
+
+		<form>
+
+		<md-input-container>
+        <label>Alege clasa</label>
+        <md-select ng-model="frm.clasa_id" >
+          <md-optgroup label="Clase">
+            <md-option ng-value="clasa.id_clasa" ng-repeat="clasa in clase">{{clasa.nume_clasa}}</md-option>
+          </md-optgroup>
+        </md-select>
+      </md-input-container>
+
+      <md-input-container>
+        <label>Alege disciplina</label>
+        <md-select ng-model="frm.disciplina_id" >
+          <md-optgroup label="Discipline">
+            <md-option ng-value="disciplina.id_disciplina" ng-repeat="disciplina in discipline">{{disciplina.nume_disciplina}}</md-option>
+          </md-optgroup>
+        </md-select>
+      </md-input-container>
+
+      <md-button class="md-raised md-primary" ng-disabled="frm.clasa_id==null || frm.disciplina_id==null" ng-click="pushDsc(frm)" ng-click="">Adaugă</md-button>
+      		    	<md-progress-circular ng-if="added=false" md-mode="indeterminate"></md-progress-circular>
+      <p ng-if="!warn" style="color:gray">{{response}}</p><p ng-if="warn" style="color:red">{{response}}</p>
+
+		</form>
+		</div>
+		
+	</md-tab>
+
+	<md-tab label="Contul meu" >
+		<div class="container">
+			<br>
+			<form ng-if="a_edit==true" ng-submit="updateAcc(1,account)" style="width: 60%;border:solid 1px #f2f2f2;padding: 2rem;">
+				<md-input-container>
+					<label>Nume</label>
+					<input required=""  ng-model="account.nume"></input>
+				</md-input-container>
+				<br>
+				<md-input-container>
+					<label>Prenume</label>
+					<input required="" ng-model="account.prenume"></input>
+				</md-input-container>
+				<md-button class="md-primary md-raised" type="submit">Modifică</md-button>
+				<md-button class="md-raised" ng-click="edit(1,false)">Renunță</md-button>
+				
+			</form>
+
+			<div ng-if="a_edit==false" style="width: 60%">
+			<p  style="font-size: 1.3rem;color: gray;display: inline-block;">Nume : {{account.nume}}&nbsp{{account.prenume}}</p>
+			<span>
+				<img style="width: 2rem;margin-left: 1rem;display: inline-block;" ng-click="editAcc(1,true)" src="public/icons/edit.png">
+					<md-tooltip md-direction="right">
+			          Editează
+			        </md-tooltip>
+			</span>
+			<hr>
+</div>
+
+			<form ng-if="u_edit==true" ng-submit="updateAcc(2,account)" style="width: 60%;border:solid 1px #f2f2f2;padding: 2rem;">
+				<md-input-container>
+					<label>Nume utilizator</label>
+					<input required=""  ng-model="account.username"></input>
+				</md-input-container>
+				
+				<md-button class="md-primary md-raised" type="submit">Modifică</md-button>
+				<md-button class="md-raised" ng-click="editAcc(2,false)">Renunță</md-button>
+				
+			</form>
+
+			<div ng-if="u_edit==false" style="width: 60%">
+			<p  style="font-size: 1.3rem;color: gray;display: inline-block;">Nume de utilizator : {{account.username}}</p>
+			<span>
+				<img style="width: 2rem;margin-left: 1rem;display: inline-block;" ng-click="editAcc(2,true)" src="public/icons/edit.png">
+					<md-tooltip md-direction="right">
+			          Editează
+			        </md-tooltip>
+			</span>
+			<hr>
+</div>		
+			<form ng-if="p_edit==true" ng-submit="changePsw(oldpsw,newpsw)">
+			<md-input-container>
+				<label>Parola veche</label>
+				<input required="" maxlength="20" ng-model="oldpsw" type="password">
+			</md-input-container>
+
+			<md-input-container>
+				<label>Parola nouă</label>
+				<input required="" maxlength="20" ng-model="newpsw" type="password">
+			</md-input-container>
+
+			<md-button class="md-raised md-primary" type="submit" >Modifică</md-button><p ng-if="!pwarn" style="color:#6ee557">{{status}}</p><p ng-if="pwarn" style="color:red">{{status}}</p><br>
+			<p style="color: gray">*Parola trebuie sa aiba maxim 20 de caractere.</p>
+
+			
+
+			</form>
+			<div ng-if="p_edit==false">
+			<md-button  ng-click="editAcc(3,true)" class="md-raised md-warn">Schimbă parola</md-button> 
+</div>
+		</div>
+	</md-tab>
+
+	<md-tab label="Instrucțiuni">
+		<div class="container">
+		<p style="font-size: 1.5rem;">Metoda de adăugare a unei discipline</p><hr><br>
+		<ul>
+			<p>-selectați tab-ul 'Administrare'</p>
+			<p>-selectați clasa respectiv disciplina ce urmează a fi adăugată</p>
+			<p>-faceți click pe butonul 'Adaugă'</p>
+		</ul>
+		<br><br><br>
+		<p style="font-size: 1.5rem;">Metode de ștergere a unei discipline</p><hr><br>
+		<ul>
+			<p>-navigați în meniul lateral spre clasa în care se află disciplina</p>
+			<p>-în dreptul disciplinelor listate este prezent butonul de ștergere simbolic</p>
+			<p>-faceți click pe butonul simbolic de ștergere</p>
+			<p>-confirmați acțiunea de ștergere a disciplinei</p>
+			<p style="color: red">Atenție!!! Prin ștergerea unei discipline vor fi șterse simultan toate articolele adăugate în secțiunea ce corespunde acesteia.</p>
+		</ul>
+		<br><br><br>
+		<p style="font-size: 1.5rem;">Metoda de adăugare a unui articol</p><hr><br>
+		<ul>
+			<p>-navigați în meniul lateral spre disciplina în care doriți să postați articolul</p>
+			<p>-faceți click pe butonul 'Adaugă articol nou'</p>
+			<p>-în formularul ce va fi afișat completați câmpurile necesare</p>
+			<p>-opțional puteți adăuga sau nu un fișier</p>
+			<p>-pentru încărcarea fișierului faceți click pe butonul 'Postează Articolul'</p>
+		</ul>
+		<br><br><br>
+		<p style="font-size: 1.5rem;">Metoda de modificare a unui articol</p><hr><br>
+		<ul>
+			<p>-(1)navigați în meniul lateral spre disciplina în care este postat articolul ce urmează a fi modificat</p>
+			<p>-(2)selectați tab-ul 'Articolele mele'</p>
+			<p>-click pe butonul simbolic pentru editare din colțul sus-dreapta al articolului ce urmează a fi modificat</p>
+			<p>-modificați datele ce doriți a fi modificate</p>
+			<p>-la încarcarea unui nou fisier, acesta îl va înlocui pe cel actual</p>
+			<p>-click pe butonul 'Modifică Articolul'</p>
+			<p>-pentru a renunța la a modifica articolul apăsați butonul 'Renunță'</p>
+		</ul>
+		<br><br><br>
+		<p style="font-size: 1.5rem;">Metoda de ștergere a unui articol</p><hr><br>
+		<ul>
+			<p>-(1)navigați în meniul lateral spre disciplina în care este postat articolul ce urmează a fi șters</p>
+			<p>-(2)selectați tab-ul 'Articolele mele'</p>
+			<p>-click pe butonul simbolic pentru editare din colțul sus-dreapta al articolului ce urmează a fi șters</p>
+			<p>-faceți click pe butonul simbolic de ștergere situat în colțul de sus-dreapta al articolului</p>
+			<p>-confirmați acțiunea de ștergere a articolului</p>
+		</ul>
+		<br><br><br>
+		</div>
+	</md-tab>
+
+	<md-tab label="Chestionar">
+		<div class="container">
+
+		<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeN4hjmM8qvmGz-pi_7hwhrbPewfm6JP8ZpSg3f7galqHTthA/viewform?embedded=true" width="100%" height="1400" frameborder="0" marginheight="0" marginwidth="0" scrolling="no" >Loading...</iframe>
+		<p style="color: gray;margin-bottom: 6rem;">* Prin completarea acestui formular aduceți un mare ajutor privind viitoarele îmbunătățiri, vă mulțumim!</p>
+			
+		</div>
+	</md-tab>
+	
+</md-tabs>

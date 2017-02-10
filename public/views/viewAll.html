@@ -1,0 +1,199 @@
+
+<md-toolbar class="md-primary"> 
+    <div class="md-toolbar-tools">
+      <h2 class="md-flex">Clasa a {{numeclasa}}-a, {{disciplina}}</h2>
+    </div>
+  </md-toolbar>
+
+<div class="container">
+	<h5 id="placeholder"  ng-if="none==true && loggedIn">
+			Încă nu ai adaugat nici un articol.
+			</h5>
+	<h5 id="placeholder"  ng-if="none==true && !loggedIn">
+			Încă nu a fost adaugat nici un articol.
+			</h5>
+
+
+
+	<md-progress-linear md-mode="indeterminate" ng-hide="success==true" ></md-progress-linear>
+
+<div class="articleForm" ng-if="loggedIn">
+
+
+	<md-button class="md-raised md-warn" id="frmTgl"  ng-if="state" ng-click="enable(false)" style="width: 14em;">
+			<i class="material-icons" style="vertical-align: middle;">&#xE146;</i>&nbsp Adaugă articol nou
+			</md-button>
+
+	<form ng-if="!state" id="artFrm" ng-submit="pushArt(frm)" >	
+
+		<h4>Adaugă un articol nou</h4>
+		<hr>
+		
+		<h5>Titlul articolului</h5><br>
+		<md-input-container style="">
+			
+	        <label style="">Titlu</label>
+	        <input required="" ng-model="frm.titlu" style="">
+	      </md-input-container>
+	      <br>
+
+
+	      <h5>Conținutul articolului</h5><br>
+		<md-input-container class="md-block" style="">
+			  
+	          <label style="">Conținut</label>
+	          <textarea required=""  ng-model="frm.continut" md-maxlength="6000" rows="7" md-select-on-focus style=""></textarea>
+	        </md-input-container>
+
+
+	     <md-input-container ng-controller="uploadDoc">
+	            <h5>Atașează documente</h5>
+	            <p style="color: gray; font-size: 0.8rem">* Se pot atașa până la 5 fișiere</p>
+	            <br>
+	            <md-button type="button" ng-disabled="progress>0 && progress<100" ng-if="count<5" type="file" ngf-select="uploadFiles($file, $invalidFiles)"
+	         class="md-raised md-warn" style="display: inline-block;vertical-align:middle;"><i class="material-icons" style="vertical-align: middle;">&#xE2C3;</i>&nbsp Încarcă</md-button>
+	         	<md-progress-circular style="display: inline-block;vertical-align:middle;" md-mode="determinate" value="{{progress}}" ng-hide="progress==100"></md-progress-circular>
+	         	<div style="display: inline-block;vertical-align:middle;">
+	         	<ul >
+	         	<div ng-repeat="name in names">
+				<li >{{name}} 
+				<i style="display: inline-block;vertical-align: middle;" ng-click="removeFiles(name,names.indexOf(name))" class="material-icons">&#xE5CD;</i>
+				</li>
+			      </div>
+			    
+	         
+	            </ul>
+				</div>
+
+	        </md-input-container><br><br><br>
+
+	     <div ng-if="pushed===undefined">
+	    <md-button class="md-raised md-primary"  type="submit" id="submit"  ><i class="material-icons" style="vertical-align: middle;">&#xE255;</i> Postează articolul</md-button>
+</div>
+		<div>
+			<md-progress-circular  md-mode="indeterminate" ng-if="pushed==false" ng-hide="pushed==true"></md-progress-circular>
+		</div>
+
+	</form>
+</div>
+
+<div class="article" ng-if="articole.length-1>=0"  ng-repeat="articol in articole">
+
+
+
+<div ng-if="articol.editing">
+	<form  id="artFrm" style="padding: 2rem" ng-submit="update(articol)">	
+
+
+		
+		
+		<md-input-container style="">
+			
+	        <label style="">Titlu</label>
+	        <input required="" ng-model="articol.nume_articol" style="">
+	      </md-input-container>
+	      <br>
+
+
+
+		<md-input-container class="md-block" style="">
+			  
+	          <label style="">Conținut</label>
+	          <textarea required=""  ng-model="articol.descriere_articol" md-maxlength="6000" maxlength="6000" rows="7" md-select-on-focus style=""></textarea>
+	        </md-input-container>
+
+
+	     <md-input-container ng-controller="uploadDoc">
+	            <h5>Documente</h5>
+	            
+	            <br>
+	            <md-button type="button" ng-disabled="progress>0 && progress<100" ng-if="count<5" type="file" ngf-select="uploadFiles($file, $invalidFiles)"
+	         class="md-raised md-warn" style="display: inline-block;vertical-align:middle;"><i class="material-icons" style="vertical-align: middle;">&#xE2C3;</i>&nbsp Încarcă</md-button>
+	         	<md-progress-circular style="display: inline-block;vertical-align:middle;" md-mode="determinate" value="{{progress}}" ng-hide="progress==100"></md-progress-circular>
+	         	<div style="display: inline-block;vertical-align:middle;">
+	         	<ul >
+	         	<div ng-repeat="name in names">
+				<li >{{name}} 
+				<i style="display: inline-block;vertical-align: middle;" ng-click="removeFiles(name,names.indexOf(name))" class="material-icons">&#xE5CD;</i>
+				</li>
+			      </div>
+			    
+	         
+	            </ul>
+				</div>
+
+	        </md-input-container><br><br><br>
+
+		     <div ng-if="modified===undefined">
+		    <md-button class="md-raised md-primary"  id="submit" type="submit" ><i class="material-icons" style="vertical-align: middle;">&#xE255;</i> Modifică articolul</md-button>
+		    <md-button class="md-raised" ng-click="edit(articole.indexOf(articol),false)">Renunță</md-button>
+		    </div>
+
+		    <div ng-if="modified==false">
+		    	<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+		    </div>
+
+	</form>
+</div>
+
+<div ng-if="!articol.editing">
+	<div id="articleAdminOptions" ng-if="loggedIn && articol.nume_profesor==account.nume" >
+
+			<span>
+			<img style="width: 2rem;margin-right: 1rem" ng-click="edit(articole.indexOf(articol),true)" src="public/icons/edit.png">
+				<md-tooltip md-direction="left">
+		          Editează
+		        </md-tooltip>
+			</span>
+
+			<span>
+			<img style="width: 2rem;" ng-click="showCheck($event,articol.id_articol)" src="public/icons/delete.png">
+				<md-tooltip  md-direction="right">
+		          Șterge
+		        </md-tooltip>
+			</span>
+			</div>
+
+	<h5 id="title">
+			{{articol.nume_articol}}
+			</h5>
+
+	<p id="info">
+			Prof. {{articol.nume_profesor}} {{articol.prenume}}
+			</p>
+
+	<p id="date" ng-if="articol.edit==0">
+			Publicat la {{articol.data|dateOnly}}
+			</p>
+	<p id="date" ng-if="articol.edit==1">
+			Modificat la {{articol.data|dateOnly}}
+			</p>
+
+
+	<p id="content">
+			{{articol.descriere_articol|limitTo:250}}{{articol.descriere_articol.length>250 ? '..' : ''}}
+			</p>
+	<div style="width: 50%;padding-left: 1rem" ng-if="articol.descriere_articol.length<250 && articol.none==false">
+	 <hr >
+	</div>
+	<div style="padding-left: 1rem" ng-if="articol.descriere_articol.length<250 && articol.none==false">
+		
+		<p style="display: inline-block;">Documente atașate:</p>
+		<ul style="display: inline-block;margin-left: -3rem;">
+		<a style="display: inline-block;margin-left: 1rem" ng-repeat="doc in articol.document_articol" href="public/uploads/docs/{{doc}}">{{doc}}</a>
+		</ul><br>
+	</div>
+
+	<md-button class="md-raised" style="margin: 1rem;" ng-click="openArticle($event,articol.id_articol,articol)" ng-if="articol.descriere_articol.length>250">
+			Citește mai mult ->
+			</md-button>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
